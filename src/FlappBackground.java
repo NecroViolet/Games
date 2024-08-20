@@ -1,3 +1,2 @@
 public class FlappBackground {
 }
-"sad"
