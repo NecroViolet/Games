@@ -1,15 +1,15 @@
 package flappyBirb;
-
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.Timer;
 import javax.swing.JFrame;
 
-public class FlappyBirb implements ActionListener
+public class FlappyBirb implements ActionListener , MouseListener , KeyListener
 {
     public static FlappyBirb flappybird;
 
@@ -19,13 +19,13 @@ public class FlappyBirb implements ActionListener
 
     public Rectangle birb;
 
-    public int ticks, yMotion;
+    public int ticks, yMotion, score;
 
     public ArrayList<Rectangle> columns;
 
     public Random rand;
 
-    public boolean gameOver, started = true;
+    public boolean gameOver, started;
 
     public FlappyBirb()
     {
@@ -39,6 +39,8 @@ public class FlappyBirb implements ActionListener
         jframe.setTitle("legally distinct FlappyBirb");
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jframe.setSize(WIDTH, HEIGHT);
+        jframe.addMouseListener(this);
+        jframe.addKeyListener(this);
         jframe.setResizable(false);
         jframe.setVisible(true);
 
@@ -76,6 +78,37 @@ public class FlappyBirb implements ActionListener
         g.fillRect(column.x, column.y, column.width, column.height);
     }
 
+    public void flap()
+    {
+        if (gameOver)
+        {
+            birb = new Rectangle(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
+            columns.clear();
+            yMotion = 0;
+            score = 0;
+
+            addColumn(true);
+            addColumn(true);
+            addColumn(true);
+            addColumn(true);
+
+            gameOver = false;
+        }
+
+        if (!started)
+        {
+            started = true;
+        }
+        else if(!gameOver)
+        {
+            if (yMotion > 0)
+            {
+                yMotion = 0;
+            }
+            yMotion -= 10;
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e)
     {
@@ -110,18 +143,37 @@ public class FlappyBirb implements ActionListener
 
             for (Rectangle column : columns)
             {
+                if (column.y == 0 && birb.x + birb.width / 2 > column.x + column.width / 2 - 10 && birb.x + birb.width/ 2 < column.x + column.width / 2 + 10)
+                {
+                    score++;
+                }
+
                 if (column.intersects(birb))
                 {
                     gameOver = true;
 
-                    birb.x = column.x - birb.width;
+                    if (birb.x <= column.x)
+                    {
+                        birb.x = column.x - birb.width;
+                    }
+                    else
+                    {
+                        if (column.y != 0)
+                        {
+                            birb.y = column.y - birb.height;
+                        }
+                        else if (birb.y < column.height)
+                        {
+                            birb.y = column.height;
+                        }
+                    }
                 }
             }
 
             if (birb.y > HEIGHT - 120 || birb.y < 0) {
                 gameOver = true;
             }
-            if (gameOver)
+            if (birb.y + yMotion >= HEIGHT - 120)
             {
                 birb.y = HEIGHT - 120 - birb.height;
             }
@@ -151,13 +203,51 @@ public class FlappyBirb implements ActionListener
 
         g.setColor(Color.white);
         g.setFont(new Font("Arial", 1, 100));
+        if (!started) {
+            g.drawString("Click to start!", 75, HEIGHT / 2 - 50);
+        }
+
         if (gameOver) {
             g.drawString("Game Over!", 100, HEIGHT / 2 - 50);
+        }
+
+        if (!gameOver && started)
+        {
+            g.drawString(String.valueOf(score), WIDTH / 2 - 25, 100);
         }
     }
 
     public static void main(String[] args)
     {
        flappybird = new FlappyBirb();
+    }
+
+    public void mouseClicked(MouseEvent e)
+    {
+        flap();
+    }
+    public void mousePressed(MouseEvent e){
+
+    }
+    public void mouseEntered(MouseEvent e){
+
+    }
+    public void mouseExited(MouseEvent e){
+
+    }
+    public void mouseReleased(MouseEvent e){
+
+    }
+    public void keyPressed(KeyEvent e) {
+
+    }
+    public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_SPACE)
+        {
+            flap();
+        }
+    }
+    public void keyTyped(KeyEvent e) {
+
     }
 }
