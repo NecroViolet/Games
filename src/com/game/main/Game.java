@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 
 import com.game.gfx.Windows;
+import com.game.object.util.Handler;
 
 public class Game extends Canvas implements Runnable
 {
@@ -21,6 +22,7 @@ public class Game extends Canvas implements Runnable
 
     //GAME COMPONENTS
     private Thread thread;
+    private Handler handler;
 
     public Game()
     {
@@ -32,6 +34,8 @@ public class Game extends Canvas implements Runnable
     }
     private void intialize()
     {
+        handler = new Handler();
+
         new Windows(WINDOW_WIDTH, WINDOW_HEIGHT, NAME, this);
 
         start();
@@ -94,7 +98,7 @@ public class Game extends Canvas implements Runnable
 
     private void tick()
     {
-
+        handler.tick();
     }
 
     private void render()
@@ -111,6 +115,8 @@ public class Game extends Canvas implements Runnable
 
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+        handler.render(g);
 
         // clean for next frame
         g.dispose();
