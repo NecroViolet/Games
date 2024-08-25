@@ -12,6 +12,8 @@ public class Player extends GameObject
 
     private Handler handler;
 
+    private boolean jumped = false;
+
     public Player(float x, float y, int scale, Handler handler)
     {
         super(x, y, ObjectId.Player, WIDTH, HEIGHT, scale);
@@ -87,5 +89,15 @@ public class Player extends GameObject
         g2d.draw(getBoundsRight());
         g2d.draw(getBoundsLeft());
         g2d.draw(getBoundsTop());
+    }
+
+    public boolean hasJumped()
+    {
+        return jumped;
+    }
+
+    public void setJumped(boolean hasJumped)
+    {
+        jumped = hasJumped;
     }
 }
