@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 
 import com.game.gfx.Windows;
+import com.game.object.Player;
 import com.game.object.util.Handler;
 
 public class Game extends Canvas implements Runnable
@@ -35,6 +36,9 @@ public class Game extends Canvas implements Runnable
     private void intialize()
     {
         handler = new Handler();
+
+        //temporary code
+        //handler.setPLayer(new Player(32, 32, 1, handler));
 
         new Windows(WINDOW_WIDTH, WINDOW_HEIGHT, NAME, this);
 
