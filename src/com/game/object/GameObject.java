@@ -27,4 +27,72 @@ public abstract class GameObject
     public abstract void render(Graphics g);
     public abstract Rectangle getBounds();
 
+    public void applyGravity()
+    {
+        velY += 0.5f;
+    }
+
+    public void setX(float x)
+    {
+        this.x = x;
+    }
+
+    public void setY(float y)
+    {
+        this.y = y;
+    }
+
+    public void setId(ObjectId id)
+    {
+        this.id = id;
+    }
+
+    public void  setVelX(float velX)
+    {
+        this. velX = velX;
+    }
+
+    public void setVelY(float velY)
+    {
+        this.velY = velY;
+    }
+
+    public void setWidth(float width)
+    {
+        this.width = width * scale;
+    }
+
+    public void setHeight(float height)
+    {
+        this.height = height * scale;
+    }
+
+    public float getX()
+    {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public float getVelX() {
+        return velX;
+    }
+
+    public float getVelY() {
+        return velY;
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
 }
