@@ -1,9 +1,12 @@
 package com.game.object;
 
+import com.game.gfx.Texture;
+import com.game.main.Game;
 import com.game.object.util.Handler;
 import com.game.object.util.ObjectId;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Player extends GameObject
 {
@@ -11,13 +14,21 @@ public class Player extends GameObject
     private static final float HEIGHT = 32;
 
     private Handler handler;
+    private Texture tex;
+    private BufferedImage[] spriteL, spriteS;
 
     private boolean jumped = false;
+    private int health = 2;
+
 
     public Player(float x, float y, int scale, Handler handler)
     {
         super(x, y, ObjectId.Player, WIDTH, HEIGHT, scale);
         this.handler = handler;
+        tex = Game.getTexture();
+        spriteL = tex.getMarioL();
+        spriteS = tex.getMarioS();
+
     }
 
     @Override
@@ -33,8 +44,13 @@ public class Player extends GameObject
     @Override
     public void render(Graphics g)
     {
-        g.setColor(Color.yellow);
-        g.fillRect((int) getX(), (int) getY(), (int) WIDTH, (int) HEIGHT);
+        if (health == 1)
+        {
+            g.drawImage(spriteS[0], (int) getX(), (int) getY(), (int) getWidth(), (int) getHeight() / 2, null);
+        } else if (health == 2)
+        {
+            g.drawImage(spriteL[0], (int) getX(), (int) getY(), (int) getWidth(), (int) getHeight(), null);
+        }
         showBounds(g);
     }
 

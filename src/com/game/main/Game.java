@@ -3,6 +3,7 @@ package com.game.main;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
+import com.game.gfx.Texture;
 import com.game.gfx.Windows;
 import com.game.object.Block;
 import com.game.object.Player;
@@ -26,6 +27,8 @@ public class Game extends Canvas implements Runnable
     //GAME COMPONENTS
     private Thread thread;
     private Handler handler;
+    //private Camera cam;
+    private static Texture tex;
 
     public Game()
     {
@@ -37,6 +40,8 @@ public class Game extends Canvas implements Runnable
     }
     private void intialize()
     {
+        tex = new Texture();
+
         handler = new Handler();
         this.addKeyListener(new KeyInput(handler));
 
@@ -151,5 +156,20 @@ public class Game extends Canvas implements Runnable
     public static int getWindowWidth()
     {
         return WINDOW_WIDTH;
+    }
+
+    //public static int getScreenHeight()
+    //{
+        //return SCREEN_HEIGHT;
+    //}
+
+    //public static int getScreenWidth()
+    //{
+        //return SCREEN_Width;
+    //}
+
+    public static Texture getTexture()
+    {
+        return tex;
     }
 }
